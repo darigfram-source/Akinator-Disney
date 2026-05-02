@@ -1,5 +1,6 @@
 # Akinator-Disney.
 
+
 1.Requisitos para jugar
 
 Tener instalado Prolog y SWI-Prolog.
