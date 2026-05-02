@@ -4,6 +4,7 @@
 1.Requisitos para jugar
 
 Tener instalado Prolog y SWI-Prolog.
+
 2. Cómo jugar
 
 Abrir el archivo Akinator.pl en SWI-Prolog o tu IDE favorito que sea compatible con el lenguaje Prolog.
