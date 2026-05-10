@@ -1,7 +1,6 @@
 :- dynamic respuesta/2.
 
 % Diccionario de frases amigables
-% Esta regla convierte los términos técnicos en frases naturales
 
 nombre_amigable(mujer, 'es mujer').
 nombre_amigable(hombre, 'es hombre').
