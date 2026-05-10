@@ -1,5 +1,37 @@
 :- dynamic respuesta/2.
-% Base de conocimientos.
+
+% Diccionario de frases amigables
+% Esta regla convierte los términos técnicos en frases naturales
+
+nombre_amigable(mujer, 'es mujer').
+nombre_amigable(hombre, 'es hombre').
+nombre_amigable(no_animal, 'no es un animal').
+nombre_amigable(animal, 'es un animal').
+nombre_amigable(humano, 'es humano').
+nombre_amigable(no_humano, 'no es humano').
+nombre_amigable(vuela, 'puede volar').
+nombre_amigable(no_vuela, 'no puede volar').
+nombre_amigable(hada, 'es un hada').
+nombre_amigable(no_hada, 'no es un hada').
+nombre_amigable(princesa, 'es una princesa').
+nombre_amigable(no_princesa, 'no es una princesa').
+nombre_amigable(principe, 'es un príncipe').
+nombre_amigable(no_principe, 'no es un príncipe').
+nombre_amigable(sombrero, 'lleva sombrero').
+nombre_amigable(no_sombrero, 'no lleva sombrero').
+nombre_amigable(magia, 'tiene poderes mágicos').
+nombre_amigable(no_magia, 'no tiene magia').
+nombre_amigable(pixar, 'es de una película de Pixar').
+nombre_amigable(no_pixar, 'no es de Pixar').
+nombre_amigable(usa_ropa, 'viste ropa').
+nombre_amigable(no_usa_ropa, 'no viste ropa').
+nombre_amigable(barita_palo_arma, 'lleva una varita, palo o arma').
+nombre_amigable(no_barita_palo_arma, 'no lleva armas ni varitas').
+nombre_amigable(juguete, 'es un juguete').
+nombre_amigable(no_juguete, 'no es un juguete').
+
+% Base de conocimientos
+
 personaje(flora, [mujer, no_animal, humano, vuela, hada, no_princesa, no_principe, sombrero, magia, no_pixar, usa_ropa, barita_palo_arma, no_juguete]).
 personaje(merriweather, [mujer, no_animal, humano, vuela, hada, no_princesa, no_principe, sombrero, magia, no_pixar, usa_ropa, barita_palo_arma, no_juguete]).
 personaje(blanca_nieves, [mujer, no_animal, humano, no_vuela, no_hada, princesa, no_principe, no_sombrero, no_magia, no_pixar, usa_ropa, no_barita_palo_arma, no_juguete]).
@@ -121,7 +153,7 @@ personaje(principe_felipe, [hombre, no_animal, humano, no_vuela, no_hada, no_pri
 personaje(fauna, [mujer, no_animal, humano, vuela, hada, no_princesa, no_principe, sombrero, magia, no_pixar, usa_ropa, barita_palo_arma, no_juguete]).
 personaje(aurora, [mujer, no_animal, humano, no_vuela, no_hada, princesa, no_principe, no_sombrero, no_magia, no_pixar, usa_ropa, no_barita_palo_arma, no_juguete]).
 
-% Reglas.
+% Reglas
 
 adivinar :-
     limpiar_respuestas,
@@ -129,11 +161,11 @@ adivinar :-
     buscar(Lista).
 
 buscar([Personaje]) :-
-    write('El personaje es: '),
+    nl, write('¡Lo tengo! El personaje es: '),
     write(Personaje), nl.
 
 buscar([]) :-
-    write('No pude identificar el personaje.'), nl.
+    nl, write('No pude identificar el personaje. ¿Seguro que existe?'), nl.
 
 buscar(Lista) :-
     obtener_caracteristica_util(Lista, C),
@@ -163,9 +195,11 @@ no_aparece_en_algunos(Lista, C) :-
     personaje(P, L),
     not(member(C, L)), !.
 
+% Regla modificada para mostrar el nombre amigable de la característica al preguntar al usuario
 preguntar(C) :-
-    write('¿El personaje tiene la caracteristica '),
-    write(C),
+    (nombre_amigable(C, Frase) -> true ; Frase = C),
+    nl, write('¿El personaje '),
+    write(Frase),
     write('? (si/no): '),
     read(R),
     assert(respuesta(C,R)).
@@ -188,10 +222,7 @@ filtrar_personajes([_|R], C, R2) :-
     filtrar_personajes(R, C, R2).
 
 limpiar_respuestas :-
-    retract(respuesta(_,_)),
-    fail.
-
-limpiar_respuestas.
+    retractall(respuesta(_,_)).
 
 member(X, [X|_]).
 member(X, [_|T]) :- member(X, T).
